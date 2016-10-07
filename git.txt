@@ -1,0 +1,163 @@
+sudo apt-get install git
+git config --global user.name "Your Name"
+git config --global user.email "email@server.com"
+mkdir learngit
+cd learngit
+pwd
+git init    //Initialized empty Git repository in ... for a storage
+
+//add file or dir
+git add filename.txt   //add a file to storage, can add many times .
+git commit -m "details" //update storage for all changes one times
+git status //check storage with basic files . modify or not? and show which modify!
+git diff filename    //diff file modified , what details changes. then git commit
+
+//version diff
+git log   //list modify hostory. from now to past
+git log --pretty=oneline   //one line per commit id
+version back
+git reset --hard HEAD^     //back one version
+cat filename
+git log
+git reset --hard commitId     //go commit id version if this version has been deleted
+git reflog    //memory all your commands before
+//working directory and repository(version lib)
+//master  --- auto create first branch
+//HEAD    ---pointer points to master
+//git manage modify not file , how to manage? 
+//first modify -->add -->second modify --->add --->commit   ****
+
+git diff HEAD  --filename
+
+//undo modify
+git status
+git checkout -- filename    //undo all modify of file , go to nearest git commit  or git add status
+
+//delete file
+rm filename    //local delete a filegit
+git status     
+git rm filename   // git delete a file
+git commit -m "details"    //commit to storage . like add --- two step
+ 
+//undo delete
+rm filename  //local delete a file
+git status
+git checkout -- filename   //restore filename from storage
+
+//remote storage  ***
+
+ssh-keygen -t rsa -C "lhjdark@hotmail.com"    
+//create ssh key .There will be  id_rsa and id_rsa.pub in /home/lhj/.ssh . id_rsa.pub is publc key . its use for github.
+cat /home/lhj/.ssh/id_rsa.pub  //copy file comment.
+//sign in GitHub. Account setting ----SSH Keys page: new SSH Key ,add any Title . paste the comment to Key .Add SSH key
+
+//create a remote storage at GitHub
+//sign in GitHub , 
+//menu --new repository --
+//page  -- Create a new repository
+//Owner  -- leearvin/oneName     ... like   HOME ...name need memorable and short
+//Descrpit   ..details .. if you forget
+//choose public ...   private need cost
+//click Create repository . create a new repository .it is empty . 1 clone a existing repostiroty 2 link a local storage
+
+//link a local
+git remote add origin git@github.com:leearvin/home.git   
+//in the storage home use this command for create a link. origin is the name of the remote storage
+git push -u origin master    //push local comment to remote.  -u if fisrt push .romote is empty. 
+git push origin master    //if local modify  .need to modify remote
+
+//delete a remote name
+git remote rm remotename   //like origin
+
+
+git remote add origin git@github.com:leearvin/home.git   
+// origin  ---www/home's name in the remote
+//
+
+//clone  remote to local.
+git clone git@github.com:leearvin/gitskills.git    //clone gitskills to local gitskills. create a new local storage gitskills
+
+//branch  for features and bugs
+To be continued...
+
+//tag
+git branch   //look for current branch   ************
+git checkout master //switch to branch master
+git tag v1.0     //get a tag at current commit
+git tag       //check current tag  ..   v1.0
+git log --pretty=oneline --abbrev -commit     //one commit per line.
+git tag 1234567    //get a tag at commit 1234567
+git show tagName    //show commit Id for tagName
+git tag -a tagName -m "tag details"   //create a tagname with details like commit with details
+git tag -d tagName    //delete a tag
+git push repoName tagName //push a tag remote repo ,origin  is remote repo name
+git push repoName --tags   //push all tags remote
+//if delete remote tag
+git tag -d tagName   //firstly, delete local tag
+git push repoName:refs/tags/tagName   //delete remote tag
+
+//color 
+git config --global color.ui true    //diff color in local
+
+//ignore special files    create file ".gitignorefile"
+# Windows:
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python:
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+dist
+build
+
+# My configurations:
+db.ini
+deploy_key_rsa
+
+//config short commander
+git config --global alias.st status
+git config --global alias.ci commit
+git config --global alias.br branch
+
+git config --global alias.lg "log --color --graph --pretty=format:'Cred%h%Creset -%c(yellow)%d%Creset   %s     %Cgreen(%cr)   %C(bold   blue)<%an>%Creset' --abbrev-commit"
+
+//creat Git server
+sudo apt-get install git
+sudo adduser git
+//put public key of all users (id_rsa.pub) into /home/git/.ssh/authorized_keys. one key per line
+//choose dir for  repository like  /srv/sample.git
+mkdir srv
+cd srv
+sudo git init --bare sanple.git    //create a empty repo
+sudo chown -R git:git sample.git    //change dir owner to git . ganeral user can use this dir
+//deny git login shell
+//edit /etc/passwd and find
+//git:x:1001:1001:,,,:/home/git:/bin/bash  to  git:x:1001:1001:,,,:/home/git:/usr/bin/git-shell
+//then git can connect with ssh but cant login shell
+//now client can clone remote repo
+git clone git@server:/srv/sample.git
+
+ 
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
