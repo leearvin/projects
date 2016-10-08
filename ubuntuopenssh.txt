@@ -1,0 +1,175 @@
+安装和设置 OpenSSH Server
+
+Ubuntu 下安装 OpenSSH Server 是无比轻松的一件事情，需要的命令只有一条：
+
+    sudo apt-get install openssh-server
+
+随后，Ubuntu 会自动下载并安装 openssh server，并一并解决所有的依赖关系。当您完成这一操作后，您可以找另一台计算机，然后使用一个 SSH 客户端软件（强烈推荐 PuTTy），输入您服务器的 IP 地址。如果一切正常的话，等一会儿就可以连接上了。并且使用现有的用户名和密码应该就可以登录了。
+
+事实上如果没什么特别需求，到这里 OpenSSH Server 就算安装好了。但是进一步设置一下，可以让 OpenSSH 登录时间更短，并且更加安全。这一切都是通过修改 openssh 的配置文件 sshd_config 实现的。
+
+首先，您刚才实验远程登录的时候可能会发现，在输入完用户名后需要等很长一段时间才会提示输入密码。其实这是由于 sshd 需要反查客户端的 dns 信息导致的。我们可以通过禁用这个特性来大幅提高登录的速度。首先，打开 sshd_config 文件：
+
+    sudo nano /etc/ssh/sshd_config
+
+找到 GSSAPI options 这一节，将下面两行注释掉：
+
+     #GSSAPIAuthentication yes #GSSAPIDelegateCredentials no
+
+然后重新启动 ssh 服务即可：
+
+    sudo /etc/init.d/ssh restart
+
+再登录试试，应该非常快了吧 :)
+利用 PuTTy 通过证书认证登录服务器
+
+SSH 服务中，所有的内容都是加密传输的，安全性基本有保证。但是如果能使用证书认证的话，安全性将会更上一层楼，而且经过一定的设置，还能实现证书认证自动登录的效果。
+
+首先修改 sshd_config 文件，开启证书认证选项：
+
+     RSAAuthentication yes PubkeyAuthentication yes AuthorizedKeysFile %h/.ssh/authorized_keys
+
+修改完成后重新启动 ssh 服务。
+
+下一步我们需要为 SSH 用户建立私钥和公钥。首先要登录到需要建立密钥的账户下，这里注意退出 root 用户，需要的话用 su 命令切换到其它用户下。然后运行：
+
+    ssh-keygen
+
+这里，我们将生成的 key 存放在默认目录下即可。建立的过程中会提示输入 passphrase，这相当于给证书加个密码，也是提高安全性的措施，这样即使证书不小心被人拷走也不怕了。当然如果这个留空的话，后面即可实现 PuTTy 通过证书认证的自动登录。
+
+ssh-keygen 命令会生成两个密钥，首先我们需要将公钥改名留在服务器上：
+
+     cd ~/.ssh mv id_rsa.pub authorized_keys
+
+然后将私钥 id_rsa 从服务器上复制出来，并删除掉服务器上的 id_rsa 文件。
+
+服务器上的设置就做完了，下面的步骤需要在客户端电脑上来做。首先，我们需要将 id_rsa 文件转化为 PuTTy 支持的格式。这里我们需要利用 PuTTyGEN 这个工具：
+
+点击 PuTTyGen 界面中的 Load 按钮，选择 id_rsa 文件，输入 passphrase（如果有的话），然后再点击 Save PrivateKey 按钮，这样 PuTTy 接受的私钥就做好了。
+
+打开 PuTTy，在 Session 中输入服务器的 IP 地址，在 Connection->SSH->Auth 下点击 Browse 按钮，选择刚才生成好的私钥。然后回到 Connection 选项，在 Auto-login username 中输入证书所属的用户名。回到 Session 选项卡，输入个名字点 Save 保存下这个 Session。点击底部的 Open 应该就可以通过证书认证登录到服务器了。如果有 passphrase 的话，登录过程中会要求输入 passphrase，否则将会直接登录到服务器上，非常的方便。
+
+
+
+一、安装OpenSSH Server
+
+ 
+
+1.首先查看是否已经安装过了
+
+$ dpkg --list|grep ssh
+
+     若结果中没有出现openssh-server，则说明没有安装。
+
+ 
+
+2.安装openssh-server
+
+$ sudo apt-get install openssh-server
+
+ 
+
+二、配置OpenSSH
+
+ 
+
+1.修改/etc/ssh/sshd_config
+
+     最好事先备份一下：
+
+$ sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.original
+
+     将root帐户仅限制为控制台访问：
+
+# vi /etc/ssh/sshd_config
+
+     将permitRootLogin "yes" 改为"no"
+
+     还有其它的更改，但我只改了这点而已。
+
+ 
+
+2.启动和停止openssh server命令
+
+     启动：$ sudo /etc/init.d ssh start
+
+     停止：$ sudo /etc/init.d ssh stop
+
+     重启：$ sudo /etc/init.d ssh restart
+
+ 
+
+3.生成公钥和私钥
+
+$ ssh-keygen -t rsa
+
+     回车后会提示输入passphrase（密码短语），这是用来加密私钥的，可以不填直接回车，不过还是建议填一个更好。
+
+     之后会在~/.ssh文件夹中生成id_rsa（私钥）和id_rsa.pub（公钥）两个文件。
+
+ 
+
+4.补充设置
+
+     将公钥添加到验证文件：
+
+     进入.ssh文件夹：
+
+$ cd ~/.ssh   
+
+     这是将id_rsa.pub里的公钥复制到authorized_keys文件中，authorized_keys文件不存在的话会自动新建的：
+
+$ cat id_rsa.pub >> authorized_keys
+
+     将authorized_keys验证文件权限设置为只读：
+
+$ chmod 400 authorized_keys
+
+     或者右键属性修改，自己随意。
+
+ 
+
+三、建立连接
+
+ 
+
+     到这里，Ubuntu上的设置已经基本完成了，因为我自己的计算机是Windows 7，而Ubuntu是放在VM上的，所以就打算在win 7尝试通过SSH连接Ubuntu。以下是一些心得：
+
+ 
+
+1.使用PuTTy
+
+     PuTTy是SSH的一个客户端，可以在其官网下载安装。
+
+ 
+
+2.尝试连接
+
+     首先要知道Ubuntu上的ip：$ ifconfig
+
+     得到ip地址，比如192.168.236.123。这时可以打开PuTTy.exe填入ip，选择好连接类型SSH，再点open应该就会连接成功了。
+
+     此时会弹出两个窗口，其中一个是警告提示，选“是”或“否”都行，随意。然后会询问login as，填上Ubuntu的用户名即可，接着是password（密码），注意这是Ubuntu的登录密码，这时候是不需要passphrase的。
+
+     于是这样就连接成功了，可以“远程 -_#'' ”控制Ubuntu了。
+
+ 
+
+     另外，你会发现PuTTy里面的中文是乱码的，具体解决方法详见PuTTY中文教程。
+
+由于默认Ubuntu采用UTF-8的字符集，所以putty需要做一些设置:
+点击左边的 Windows -> Appearance 设置 Font settings ,点击 Change... 按钮选择为 仿宋体 或者 新宋体.
+点击左边的 Windows -> Translation 设置 Character set translation 为 UTF-8
+然后，点击 Open 连接服务器即可 
+
+3.使用金钥验证：
+
+     上面的方法虽然可以连接，但似乎传输内容是没有加密的（？这一点我还不知道是不是这样？），还可以设置成使用公/私钥验证。
+
+ 
+
+     要明确的是OpenSSH生成的密钥与PuTTy的密钥格式不一样，所以要将Ubuntu上的id_rsa转换为PuTTy的格式。
+
+     首先将id_rsa复制到Windows中，打开PuTTYgen.exe，点击load选取id_rsa文件，接下来会提示输入passphrase（如果此时出现的是PuTTy Error，有可能是PuTTygen版本太低，到官网下载最新的PuTTygen即可），选择Save private key，会生成一份ppk文件，文件名随意。
+
+     然后打开PuTTy.exe，输入Ubuntu的ip，选择SSH -> Auth -> Private key file for authentication，选取那份ppk文件，再回到Session保存该会话（以后再连接时就不用再重复以上操作了），点Open，之后你会发现PuTTY窗口要你使用passphrase而不是password来建立连接了。
