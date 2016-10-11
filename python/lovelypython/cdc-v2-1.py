@@ -1,5 +1,5 @@
 #!/bin/bash
-# _*_ coding utf-9 _*_
+# _*_ coding: utf-8 _*_
 import os
 export = ""    #character
 for root,dirs,files in os.walk("/home/lhj/Documents"):
