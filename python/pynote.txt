@@ -1,0 +1,39 @@
+#!/bin/bash             	 	 $PATH dir
+# _*_  coding utf-8   _*_		# Be compatible with chinese utf-8
+import  os						import os module. 					
+type(content)       return content data type		
+os module			dir operate module *
+os.getcwd()			get current absolute directory that script run , return strings
+os.listdir(path)	get  content at  directory  "path" .one level.  return list
+os.mkdir(path)		create a path directory.	return NoneType
+os.rmdir(path)		del the path directory . return NoneType
+os.isdir(path)		if it is a directory . return bool
+os.isfile(path)		if it is a file . return bool
+os.walk(path)		list Folder Conents. include all sub dir. return tuiple element per list unit. like . [root ['all', 'dir', 'list']['all','file','list']]...
+
+
+open('filename','parameter')	access code :w a r+ w+ a+      a --- append to file end. if not exist . then create a new file.	w --if file  exist then make it empty first. and create a new
+open().close()		dont forget close handle
+open().read(size)		read size bytes from tag at opened handle	, if size = -1 , read all left bytes
+open().reandlines(size)	if size empty . read and return one line from tag . if size = 0 ,read and return all lines as a list, if size > 0 ,then read and return size bytes line.  
+write(str) 			write str into file. can format str 
+writelines(seq)		write seq into file .seq is list.
+open().seek(offset,whence=0)	 tag(file youbiao) operation  
+open().tell()		current position of tag
+for eachline in f:  
+	#dealwith eachline of f
+
+os.path.basename()     delete dir left filename
+os.path.dirname()		delete filename left dir
+os.path.getatime()		get atime of file
+os.path.getctime()		gei ctime of file
+os.path.getmtime() 		get mtime of file
+os.path.size()			get size of file
+os.path.exists()		if file or dir exist
+os.path.abs()			dir has been given is absolute dir
+os.path.isdir()			if dir exist and it is a dir
+os.path.isfile()		if file exist and it is a file
+os.path.islink()		if dir exist and it is a link (for linux)
+
+
+		
