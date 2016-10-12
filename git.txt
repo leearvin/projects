@@ -141,6 +141,23 @@ sudo chown -R git:git sample.git    //change dir owner to git . ganeral user can
 git clone git@server:/srv/sample.git
 
  
+//create a branch
+git checkout -b dev    	//create a new branch dev at current  branch .master
+git branch dev         	//==git checkout -b dev (true)
+git checkout dev		//==git checkout -b dev
+
+git branch				//show current branch
+
+//after operating files in branch dev . git add new files and git commit
+
+git checkout master      //switched to branch master
+
+git merge dev			//gother dev into master
+
+//delete a branch
+git branch -d dev      //delete a branch
+
+
 
 
 

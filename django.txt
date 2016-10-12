@@ -1,0 +1,32 @@
+$ sudo apt-get update
+$ sudo apt install python-pip
+$ pip install --upgrade pip
+$ sudo apt-get install virtualenv
+$ which virtaulenv                             //   /usr/bin/virtualenv
+$ which python       				//    /usr/bin/python
+$ sudo apt-get install python-django
+ 
+$which django-admin         //    /usr/bin/django-admin
+$ django-admin startproject mysite     //create a new blog mysite
+$ cd mysite
+$ ls -l                           //show blog structure    manage.py and mysite(dir){__init__.py settings.py urls.py wsgi.py}
+$ python manage.py migrate       //apply migrateions before manage.py works
+
+//create a new django server 
+$ ./manage runserver              //http://127.0.0.1:8000     it works , but there isnt pages in blog . so 404 in log
+
+//create a new blog app
+$ ./manage startapp blog             // create a blog named "blog"
+$ ls - l blog/							// check models.py
+$ cd blog
+$ sublime model.py   	// add
+class BlogPost(models.Model):				//three variable per model. another hiddin var "id"
+	title = models.ChaerField(max_length=150)
+	body = models.TextField()
+	timestamp = models.DateTimeField()
+
+//connect to database    (SQlite but PostgreSQL MySQL Oracle MSSQL is ok too ,here is mysql5.7)
+DATABASE_ENGINE = 'mysql'
+DATEBASE_NAME = 'var/db/django.db'
+
+
