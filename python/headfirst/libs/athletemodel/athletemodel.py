@@ -6,7 +6,6 @@ from AthleteList import AthleteList
 def get_coach_data(filename):
     try:
         with open(filename) as f:
-        with open(filename) as f:
             data = f.readline()
             templ_data = data.strip().split(",")
             return(AthleteList(templ_data.pop(0), templ_data.pop(0), templ_data))

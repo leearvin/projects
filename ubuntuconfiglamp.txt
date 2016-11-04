@@ -30,24 +30,6 @@ sudo ufw app list      //firewall app list
 sudo ufw app info "Apache Full"   //watch ports. 80,443/tcp
 sudo ufw allow in "Apache Full"    //allow
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //install samba
 sudo apt-get install samba
 sudo chmod 777 folder   //every folder
@@ -62,7 +44,7 @@ download sublime-text_build-3114.deb
 sudo dpkg -i sublime-text——build-3114_amd64.deb
 //提权。
  sudo ln -s /opt/sublime_text/sublime_text /usr/bin/sublime   //软连接
-sudo sublime /usr/share/applications   //生成桌面图标
+sudo sublime /usr/share/applications   //生成桌面图标sudo
 sudo sublime filenmae   //直接命令调用sublime
 
 or 
