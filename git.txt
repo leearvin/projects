@@ -47,7 +47,8 @@ git checkout -- filename   //restore filename from storage
 //remote storage  ***
 
 ssh-keygen -t rsa -C "lhjdark@hotmail.com"    
-//create ssh key .There will be  id_rsa and id_rsa.pub in /home/lhj/.ssh . id_rsa.pub is publc key . its use for github.
+//create ss
+ in /home/lhj/.ssh . id_rsa.pub is publc key . its use for github.
 cat /home/lhj/.ssh/id_rsa.pub  //copy file comment.
 //sign in GitHub. Account setting ----SSH Keys page: new SSH Key ,add any Title . paste the comment to Key .Add SSH key
 

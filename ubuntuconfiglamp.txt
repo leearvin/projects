@@ -1,34 +1,63 @@
-//config  lamp
+//install openssh-server
+sudo apt-get install openssh-server 
+
+//install vim
+sudo apt-get install vim
+
+//install LAMP
+
+//install apache2
 sudo apt-get install apache2
-sudo apt-get install php
-php -v    //watch version
-sudo apt-get install libapache2-mod-php    //整合php和apache2
-sudo apt-get install mysql-servermysql-secure-installation  //配置mysql 除了密码 默认回车
-mysql -hlocalhost -uroot -p1234       //验证mysql
-sudo apt-get install php7.0-mysql     //整合php和mysql
-
-sudo service mysql restart
-sudo service apache2 restart
-
-//php一些必要小插件
-
-sudo apt-get install php-mcrypt php-mysql php-gd php-imap php-ldap php-mbstring php-odbc php-pear php-xml php-xmlrpc php-gettext
-sudo chmod 777 /var/www   //提权
-sudo chmod 777 /var/www/html
-sudo apt-get install phpmyadmin php-mbstring php-gettext   //2个包是phpmyadmin必须
-sudo gedit /etc/php/7.0/apache2/php.ini
-sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin  //建立软连接 外网使用方便
-sudo gedit /etc/apache2/apache2.conf    //配置apache2
-ServerName sever_domain_or_ip     //Inside apache2.conf  . add at the bottom of the file
-sudo gedit /etc/apache2/mods-enabled/dir.conf   //modify default page from index.html to index.php
-//after opened , sort index.php to first
-sudo systemctl restart apache2   //restart apache2
-sudo systemctl status apache2    //check on de status of de apache2 service
-
+sudo vim /etc/apache2/apache2.conf
+"ServerName server_domain_or_IP"       //add this line at the bottom of apache2.conf
 sudo apache2ctl configtest     //syntax ok  . verity server name
 sudo ufw app list      //firewall app list
 sudo ufw app info "Apache Full"   //watch ports. 80,443/tcp
 sudo ufw allow in "Apache Full"    //allow
+sudo systemctl restart apache2
+
+
+//install mysql
+sudo apt-get install mysql-server mysql-secure-installation
+sudo systemctl status mysql  
+mysql -hlocalhost -uroot -p1234                    //mysql command
+
+
+//install php
+sudo apt-get install php   //install php-common php7.0 php7.0-cli php7.0-common php7.0-fpm php7.0-json php7.0-opcache php7.0-readline  together
+php -v    //watch version
+sudo apt-get install libapache2-mod-php   //install libapache2-mod-php7  together
+sudo apt-get install php-mysql           //install  php7.0-mysql 
+sudo apt-get install php-mbstring         //install php7.0-mbstring 
+sudo apt-get install php-gettext          //install php-pear php-xml php7.0-xml 
+sudo apt-get install php-mcrypt        // install libmcrypt4 php-mcrypt php7.0-mcrypt
+sudo apt-get install php-curl          // install php-curl php7.0-curl
+sudo apt-get install php-cgi          // install  php-cgi php7.0-cgi
+sudo apt-get install php-gd	      //install php-gd php7.0-gd
+sudo apt-get install php-imap         //install libc-client2007e mlock php-imap php7.0-imap
+sudo apt-get install php-ldap         //install php-ldap php7.0-ldap
+sudo apt-get install php-odbc         //install  libodbc1 php7.0-odbc
+sudo apt-get install php-xmlrpc       //install  libxmlrpc-epi0 php-xmlrpc php7.0-xmlrpc
+
+sudo vim /etc/apache2/mods-enabled/dir.conf   //check index.php is first in dir.conf
+
+sudo systemctl restart apache2     //restart apache
+sudo service apache2 restart   
+sudo service mysql restart
+sudo systemctl status apache2
+sudo systemctl status mysql
+
+//install phpmyadmin
+sudo chmod 777 /var/www    		//775 is ok
+sudo chmod 777 /var/www/html		//755
+sudo apt-get install phpmyadmin        //php modules needed has been installed.
+sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin  //link
+sudo gedit /etc/php/7.0/apache2/php.ini    //set "display_errors = On max_input_time = 30 error_reporting = E_ALL error_log = /var/www/log/php/errors.log" 
+sudo mkdir /var/www/log/php
+sudo chown www-data /var/www/log/php
+
+//install git
+sudo apt-get install git
 
 //install samba
 sudo apt-get install samba
@@ -56,8 +85,6 @@ sudo apt-get install sublime-text
 //ubuntu have gcc already , so install build-essential
 sudo apt-get install build-essential
 
-//install vim
-sudo apt-get install vim
 
 //system clean after intall ubuntu16 , We need to do something.
 sudo apt-get remove libreoffice-common
@@ -82,8 +109,7 @@ sudo apt-get install vpnc git
 //install axel
 sudo apt-get install axel
 
-//install openssh-server
-sudo apt-get install openssh-server 
+
 
 //install lnav
 sudo apt-get install lnav //watch colorful log
@@ -110,164 +136,6 @@ sudo apt-get install gdb
  wget -q -O - https://dl.google.com/linux/linux_signing_key.pub  | sudo apt-key add -
  sudo apt-get update
 sudo apt-get install google-chrome-stable
-
-
-PHP7已经出来有一段时间，根据网友的实践测试比之前的版本效率会高不少，而且应用到网站中打开速度会有明显的提高。但是并不是所有的CMS程序兼容和支持，目前主流的WordPress等程序兼容性还算不错，其他程序要看实际的使用，包括程序和组件插件支持。如果我们暂且还不放心或者不兼容，那就暂时使用PHP5.6之类的版本。
-
-今天老左有看到一篇关于Ubuntu环境安装LAMP的文章，当然其中是包括编译安装PHP7版本，算是简单的折腾和体验这个环境的过程吧，如果实际应用到项目中还是要根据我们实际的需求和技能使用。
-
-老左以前有分享过LAMP的环境文章：
-
-1、CentOS/Debian/Ubuntu系统一键安装LNMP/LAMP/LNMPA网站环境
-
-2、完整配置CentOS6安装LAMP（Apache/MySQL/PHP）环境搭建教程
-
-第一、Ubuntu安装PHP7版本LAMP准备
-
-    apt-get update && sudo apt-get upgrade
-
-在我们安装的Ubuntu 16.04系统中升级和更新源。
-
-第二、LAMP环境安装和配置Apache
-
-1、安装Apache 2.4
-
-    apt-get install apache2 -y
-
-从系统库中直接安装Apache。
-
-2、修改apache2.conf配置
-
-    /etc/apache2/apache2.conf
-
-修改apache2.conf配置
-
-    KeepAlive Off
-
-修改参数KeepAlive为Off
-
-3、修改mpm_prefork.conf配置
-
-    /etc/apache2/mods-available/mpm_prefork.conf
-
-ubuntu-lamp-php7-2
-
-设置参数：
-
-    <IfModule mpm_prefork_module>
-    StartServers            2
-    MinSpareServers         6
-    MaxSpareServers         12
-    MaxRequestWorkers       39
-    MaxConnectionsPerChild  3000
-    </IfModule>
-
-4、禁用和启动模块
-
-    sudo a2dismod mpm_event
-    sudo a2enmod mpm_prefork
-
-5、重启Apache
-
-    sudo systemctl restart apache2
-
-第三、配置虚拟主机环境
-
-1、拷贝默认配置文件
-
-    sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/laozuo.org.conf
-
-2、修改配置文件
-
-    /etc/apache2/sites-available/laozuo.org.conf
-
-这里我们需要编译当前站点配置文件。
-
-    <Directory /var/www/html/laozuo.org/public_html>
-    Require all granted
-    </Directory>
-    <VirtualHost *:80>
-    ServerName laozuo.org
-    ServerAlias www.laozuo.org
-    ServerAdmin webmaster@localhost
-    DocumentRoot /var/www/html/laozuo.org/public_html
-
-    ErrorLog /var/www/html/laozuo.org/logs/error.log
-    CustomLog /var/www/html/laozuo.org/logs/access.log combined
-
-    </VirtualHost>
-
-3、创建需要目录/文件
-
-    sudo mkdir -p /var/www/html/laozuo.org/{public_html,logs}
-
-4、启动站点
-
-    sudo a2ensite laozuo.org.conf
-
-5、禁止默认根目录配置
-
-    sudo a2dissite 000-default.conf
-
-6、重启Apache
-
-    sudo systemctl reload apache2
-
-第四、安装MYSQL数据库
-
-1、安装数据库
-
-    sudo apt-get install mysql-server
-
-在安装过程中需要设置MYSQL数据库ROOT账户密码，输入两次回车。
-
-安装MYSQL数据库
-
-2、配置数据库安全
-
-    mysql_secure_installation
-
-根据提示，我们需要清理默认表以及设置数据库的安全。这里以前有不少的文档设置过，可以参考。
-
-第五、LAMP编译安装PHP7
-
-这里是关键，其他我们可能都有类似的设置可以参考以前的文章，PHP7编译还没有过文章，一起学习一下。
-
-1、安装PHP7和响应的扩展
-
-sudo apt-get install php7.0 php-pear libapache2-mod-php7.0 php7.0-mysql
-
-2、安装组件支持
-
-sudo apt-get install php7.0-curl php7.0-json php7.0-cgi
-
-3、配置文件/etc/php/7.0/apache2/php.ini
-
-    max_input_time = 30
-    error_reporting = E_COMPILE_ERROR | E_RECOVERABLE_ERROR | E_ERROR | E_CORE_ERROR
-    error_log = /var/log/php/error.log
-
-4、创建一个日志目录
-
-    sudo mkdir /var/log/php
-    sudo chown www-data /var/log/php
-
-5、重启Apache
-
-    sudo systemctl restart apache2
-
-第六、测试PHP7环境支持
-
-到目前为止我们已经创建完毕LAMP环境，我们可以在上面绑定的域名站点目录中丢一个探针PHPINFO，然后检测是否支持php7版本。
-
-测试PHP7环境支持
-
-第七、Ubuntu安装PHP7版本LAMP总结
-
-1、如果我们技术尚可，以及喜欢折腾的，可以使用这种方法安装环境，如果我们实际需要且迫切使用的，那还是用比较成熟的一键包或者面板。
-
-2、并不是所有的程序和组件目前兼容PHP7，所以我们需要确定支持后再去使用。
-
 
 
 new ubuntu16
