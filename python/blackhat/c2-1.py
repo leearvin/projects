@@ -5,3 +5,5 @@ target_prot = 80
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((target_host,target_prot))
 client.send("GET / HEEP/\r\nHost: google.com\r\n\
+
+
