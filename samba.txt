@@ -1,4 +1,4 @@
-一、安装Ubuntu samba服务器
+﻿一、安装Ubuntu samba服务器
 
 $ sudo apt-get install samba
 
@@ -31,6 +31,8 @@ $ sudo chmod 777 /home/share
 
 $ sudo vim /etc/samba/smb.conf
 
+after Global Setting  add 'usershare owner only = false'
+
 在smb.conf最后添加：
 
 [share]
@@ -38,6 +40,8 @@ $ sudo vim /etc/samba/smb.conf
         path = /home/share
 
         browseable = yes
+	
+	public = yes
 
         writable = yes
 
