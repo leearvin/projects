@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f185a07-131b-4d7d-b5f7-6c6d603c479a" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/python/learningpython/c22/test.py" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/projects.iml" afterPath="$PROJECT_DIR$/.idea/projects.iml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/python/learningpython/c22/test.py" afterPath="$PROJECT_DIR$/python/learningpython/c22/test.py" />
     </list>
     <ignored path="projects.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -82,7 +80,7 @@
         <entry file="file://$PROJECT_DIR$/python/learningpython/c22/test.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="66">
-              <caret line="3" column="19" lean-forward="false" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+              <caret line="3" column="12" lean-forward="false" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -464,7 +462,14 @@
       <option name="project" value="LOCAL" />
       <updated>1519347039276</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;python/.idea/misc.xml&#10;#&#9;python/.idea/python.iml&#10;#&#9;python/blackhat/c2-1.py">
+      <created>1519485827861</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1519485827861</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -631,7 +636,7 @@
     <entry file="file://$PROJECT_DIR$/python/learningpython/c22/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="66">
-          <caret line="3" column="19" lean-forward="false" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+          <caret line="3" column="12" lean-forward="false" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
           <folding />
         </state>
       </provider>
